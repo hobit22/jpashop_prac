@@ -3,18 +3,15 @@ package jpabook.jpashop.service;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.repository.MemberRepository;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -43,7 +40,7 @@ public class MemberServiceTest {
         assertEquals(member, memberRepository.find(savedId));
     }
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void 중복_회원_예외() throws Exception {
         //given
         Member member1 = new Member();
@@ -54,7 +51,7 @@ public class MemberServiceTest {
 
         //when
         memberService.join(member1);
-
+        memberService.join(member2); // 예외가 발생해야 한다.
 
         //then
         fail("예외가 발생해야 한다.");
