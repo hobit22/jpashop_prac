@@ -1,6 +1,7 @@
 package jpabook.jpashop.repository;
 
 import jpabook.jpashop.domain.Order;
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -24,8 +25,8 @@ public class OrderRepository {
 
     public List<Order> findAll(OrderSearch orderSearch) {
         String jpql = "select o from Order o join o.member m" +
-                   " where o.status = :status " +
-                   " and m.name like :name";
+                      " where o.status = :status " +
+                      " and m.name like :name";
         return em.createQuery(jpql, Order.class)
                 .setParameter("status", orderSearch.getOrderStatus())
                 .setParameter("name", orderSearch.getMemberName())
